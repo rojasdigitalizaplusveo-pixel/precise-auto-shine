@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import logo from "@/assets/logo.png";
 
 const links = [
   { href: "#servicios", label: "Servicios" },
@@ -14,8 +15,8 @@ const Navbar = () => {
   return (
     <nav className="fixed top-0 left-0 right-0 z-40 bg-background/80 backdrop-blur-md border-b border-border/50">
       <div className="section-container flex items-center justify-between h-16">
-        <a href="#" className="font-heading text-lg font-bold tracking-tight">
-          PARABRISAS <span className="text-primary">VILLARRICA</span>
+        <a href="#" className="flex items-center gap-3">
+          <img src={logo} alt="Parabrisas Villarrica" className="h-10 w-auto" />
         </a>
 
         <div className="hidden md:flex items-center gap-8">

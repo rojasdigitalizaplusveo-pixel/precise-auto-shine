@@ -1,50 +1,54 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle } from "lucide-react";
+import { MessageCircle, X } from "lucide-react";
+import carImg from "@/assets/car-interactive.jpg";
 
 interface Zone {
   id: string;
   label: string;
   description: string;
-  path: string;
+  top: string;
+  left: string;
+  width: string;
+  height: string;
 }
 
 const zones: Zone[] = [
   {
-    id: "windshield-front",
+    id: "windshield",
     label: "Parabrisas Delantero",
-    description: "Cambio e instalación de parabrisas delantero para todas las marcas.",
-    path: "M 180 120 Q 300 85 420 120 L 400 140 Q 300 110 200 140 Z",
+    description: "Cambio e instalación de parabrisas delantero para todas las marcas con adhesivos certificados.",
+    top: "18%", left: "48%", width: "22%", height: "28%",
   },
   {
-    id: "windshield-rear",
+    id: "rear",
     label: "Parabrisas Trasero",
     description: "Reemplazo de luneta trasera con calefacción y antena integrada.",
-    path: "M 460 125 Q 520 100 580 130 L 570 155 Q 520 130 470 150 Z",
+    top: "20%", left: "12%", width: "18%", height: "24%",
   },
   {
-    id: "side-left",
-    label: "Vidrios Laterales",
+    id: "side-rear",
+    label: "Vidrio Lateral Trasero",
     description: "Vidrios laterales fijos y corredizos, con o sin polarizado.",
-    path: "M 200 145 L 180 200 L 240 200 L 220 145 Z",
+    top: "22%", left: "30%", width: "12%", height: "22%",
   },
   {
-    id: "door-glass",
+    id: "door",
     label: "Vidrio de Puerta",
-    description: "Reemplazo de vidrios de puerta delantera y trasera.",
-    path: "M 250 145 L 240 210 L 380 210 L 390 145 Z",
+    description: "Reemplazo de vidrios de puerta delantera y trasera para todos los modelos.",
+    top: "24%", left: "42%", width: "10%", height: "20%",
   },
   {
     id: "sunroof",
-    label: "Sunroof",
+    label: "Sunroof / Techo Solar",
     description: "Instalación y reparación de techos solares y panorámicos.",
-    path: "M 300 95 Q 350 85 400 95 L 395 115 Q 350 105 305 115 Z",
+    top: "8%", left: "30%", width: "20%", height: "14%",
   },
   {
-    id: "mirrors",
-    label: "Espejos",
+    id: "mirror",
+    label: "Espejo Retrovisor",
     description: "Cristales de espejo retrovisor lateral, originales y compatibles.",
-    path: "M 160 155 L 145 165 L 150 180 L 170 170 Z",
+    top: "38%", left: "72%", width: "8%", height: "10%",
   },
 ];
 
@@ -66,50 +70,65 @@ const InteractiveCarSection = () => {
             ¿Qué vidrio <span className="text-primary">necesita</span>?
           </h2>
           <p className="text-muted-foreground max-w-lg mx-auto">
-            Seleccione la zona del vehículo para conocer nuestros servicios
+            Toque o pase el cursor sobre las zonas iluminadas del vehículo
           </p>
         </motion.div>
 
-        <div className="flex flex-col lg:flex-row items-center gap-12">
-          {/* SVG Car */}
-          <div className="flex-1 w-full max-w-2xl">
-            <svg viewBox="100 60 550 200" className="w-full h-auto">
-              {/* Car body */}
-              <path
-                d="M 150 200 Q 150 170 180 145 Q 220 100 300 90 Q 400 80 460 100 Q 530 85 580 130 Q 610 150 610 200 Z"
-                fill="hsl(200, 25%, 12%)"
-                stroke="hsl(200, 15%, 25%)"
-                strokeWidth="1.5"
-              />
-              {/* Wheels */}
-              <circle cx="230" cy="210" r="28" fill="hsl(200, 15%, 8%)" stroke="hsl(200, 10%, 30%)" strokeWidth="2" />
-              <circle cx="230" cy="210" r="14" fill="hsl(200, 10%, 18%)" />
-              <circle cx="500" cy="210" r="28" fill="hsl(200, 15%, 8%)" stroke="hsl(200, 10%, 30%)" strokeWidth="2" />
-              <circle cx="500" cy="210" r="14" fill="hsl(200, 10%, 18%)" />
-              {/* Bottom line */}
-              <line x1="258" y1="210" x2="472" y2="210" stroke="hsl(200, 15%, 15%)" strokeWidth="2" />
+        <div className="flex flex-col lg:flex-row items-center gap-10">
+          {/* Car image with hotspots */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="flex-1 w-full max-w-3xl relative"
+          >
+            <img
+              src={carImg}
+              alt="Seleccione la zona del vidrio que necesita"
+              className="w-full h-auto rounded-2xl"
+              loading="lazy"
+              width={1920}
+              height={1080}
+            />
 
-              {/* Interactive zones */}
-              {zones.map((zone) => (
-                <path
-                  key={zone.id}
-                  d={zone.path}
-                  fill={active === zone.id ? "hsla(40, 90%, 50%, 0.4)" : "hsla(200, 50%, 50%, 0.08)"}
-                  stroke={active === zone.id ? "hsl(40, 90%, 50%)" : "hsla(200, 50%, 60%, 0.3)"}
-                  strokeWidth={active === zone.id ? "2" : "1"}
-                  className="cursor-pointer transition-all duration-300"
-                  onMouseEnter={() => setActive(zone.id)}
-                  onClick={() => setActive(zone.id)}
-                />
-              ))}
-            </svg>
-            <p className="text-muted-foreground text-sm text-center mt-4 lg:hidden">
-              Toque una zona del vehículo
-            </p>
-          </div>
+            {/* Clickable zones overlay */}
+            {zones.map((zone) => (
+              <button
+                key={zone.id}
+                onClick={() => setActive(active === zone.id ? null : zone.id)}
+                onMouseEnter={() => setActive(zone.id)}
+                className={`absolute rounded-lg border-2 transition-all duration-300 group ${
+                  active === zone.id
+                    ? "border-primary bg-primary/20 shadow-[0_0_20px_hsla(40,90%,50%,0.4)]"
+                    : "border-primary/40 bg-primary/5 hover:border-primary hover:bg-primary/15"
+                }`}
+                style={{
+                  top: zone.top,
+                  left: zone.left,
+                  width: zone.width,
+                  height: zone.height,
+                }}
+                aria-label={zone.label}
+              >
+                {/* Pulse dot */}
+                <span className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-primary ${
+                  active === zone.id ? "animate-ping" : "animate-pulse"
+                }`} />
+                <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-primary" />
+                
+                {/* Label tooltip */}
+                <span className={`absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap text-xs font-medium px-2 py-1 rounded bg-background/90 border border-border transition-opacity duration-200 ${
+                  active === zone.id ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+                }`}>
+                  {zone.label}
+                </span>
+              </button>
+            ))}
+          </motion.div>
 
           {/* Info Panel */}
-          <div className="flex-1 w-full max-w-md min-h-[200px]">
+          <div className="flex-1 w-full max-w-md min-h-[220px]">
             <AnimatePresence mode="wait">
               {activeZone ? (
                 <motion.div
@@ -118,8 +137,15 @@ const InteractiveCarSection = () => {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
                   transition={{ duration: 0.3 }}
-                  className="card-service"
+                  className="card-service relative"
                 >
+                  <button
+                    onClick={() => setActive(null)}
+                    className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors"
+                    aria-label="Cerrar"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
                   <h3 className="font-heading text-2xl font-bold mb-3 text-primary">
                     {activeZone.label}
                   </h3>
@@ -140,10 +166,13 @@ const InteractiveCarSection = () => {
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  className="card-service flex items-center justify-center h-[200px]"
+                  className="card-service flex flex-col items-center justify-center h-[220px] text-center"
                 >
-                  <p className="text-muted-foreground text-center">
-                    Pase el cursor sobre el vehículo para explorar nuestros servicios
+                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                    <span className="w-3 h-3 rounded-full bg-primary animate-pulse" />
+                  </div>
+                  <p className="text-muted-foreground">
+                    Seleccione una zona iluminada del vehículo para ver el servicio disponible
                   </p>
                 </motion.div>
               )}
