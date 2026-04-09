@@ -1,11 +1,12 @@
 import { MapPin, Phone, Clock, Mail } from "lucide-react";
+import logo from "@/assets/logo.png";
 
 const FooterSection = () => (
   <footer id="contacto" className="py-16 border-t border-border">
     <div className="section-container">
       <div className="grid md:grid-cols-3 gap-12">
         <div>
-          <h3 className="font-heading text-xl font-bold mb-4">Parabrisas Villarrica</h3>
+          <img src={logo} alt="Parabrisas Villarrica" className="h-12 w-auto mb-4" />
           <p className="text-muted-foreground text-sm leading-relaxed">
             Más de 25 años de experiencia en instalación y reparación de vidrios automotrices en la Región de La Araucanía.
           </p>
