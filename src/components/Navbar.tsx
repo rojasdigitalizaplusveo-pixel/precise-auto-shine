@@ -26,7 +26,7 @@ const Navbar = () => {
             </a>
           ))}
           <a
-            href="https://wa.me/56912345678"
+            href="https://wa.me/56996438729"
             target="_blank"
             rel="noopener noreferrer"
             className="btn-whatsapp text-sm px-4 py-2"
