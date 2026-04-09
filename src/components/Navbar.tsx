@@ -54,7 +54,7 @@ const Navbar = () => {
                   {l.label}
                 </a>
               ))}
-              <a href="https://wa.me/56912345678" target="_blank" rel="noopener noreferrer" className="btn-whatsapp justify-center">
+              <a href="https://wa.me/56996438729" target="_blank" rel="noopener noreferrer" className="btn-whatsapp justify-center">
                 Cotizar por WhatsApp
               </a>
             </div>
