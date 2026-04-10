@@ -42,13 +42,13 @@ function CarModel({ activeZone, targetRotation }: CarModelProps) {
 
   return (
     <group ref={group} position={[0, -0.5, 0]} scale={1.0}>
-      {/* ── Lower body (SUV proportions – GLE style) ── */}
+      {/* ── Lower body (SUV – GLE style) ── */}
       <mesh position={[0, 0.45, 0]} castShadow>
         <boxGeometry args={[4.8, 0.9, 2.0]} />
         <meshStandardMaterial {...bodyMetal} />
       </mesh>
 
-      {/* ── Wheel arches / fenders ── */}
+      {/* ── Wheel arches ── */}
       {[[1.5, 0.35, 1.05], [1.5, 0.35, -1.05], [-1.5, 0.35, 1.05], [-1.5, 0.35, -1.05]].map(([x, y, z], i) => (
         <mesh key={`fender-${i}`} position={[x, y, z]} castShadow>
           <boxGeometry args={[1.0, 0.5, 0.15]} />
@@ -56,7 +56,7 @@ function CarModel({ activeZone, targetRotation }: CarModelProps) {
         </mesh>
       ))}
 
-      {/* ── Cabin (taller for SUV) ── */}
+      {/* ── Cabin ── */}
       <mesh position={[0, 1.15, 0]} castShadow>
         <boxGeometry args={[2.8, 0.8, 1.9]} />
         <meshStandardMaterial {...bodyMetal} />
@@ -85,118 +85,65 @@ function CarModel({ activeZone, targetRotation }: CarModelProps) {
       {/* ── Rear windshield ── */}
       <mesh position={[-1.35, 1.15, 0]} rotation={[0, 0, -0.3]}>
         <boxGeometry args={[0.05, 0.75, 1.75]} />
-        <meshStandardMaterial {...glassMat("windshield")} />
+        <meshStandardMaterial {...glassMat("rear")} />
       </mesh>
 
-      {/* ── Side windows left ── */}
-      <mesh position={[-0.4, 1.18, 0.96]}>
-        <boxGeometry args={[0.9, 0.55, 0.05]} />
-        <meshStandardMaterial {...glassMat("windshield")} />
-      </mesh>
+      {/* ── Door windows (left) ── */}
       <mesh position={[0.6, 1.18, 0.96]}>
         <boxGeometry args={[0.9, 0.55, 0.05]} />
-        <meshStandardMaterial {...glassMat("windshield")} />
+        <meshStandardMaterial {...glassMat("door")} />
       </mesh>
-
-      {/* ── Side windows right ── */}
-      <mesh position={[-0.4, 1.18, -0.96]}>
-        <boxGeometry args={[0.9, 0.55, 0.05]} />
-        <meshStandardMaterial {...glassMat("windshield")} />
-      </mesh>
+      {/* ── Door windows (right) ── */}
       <mesh position={[0.6, 1.18, -0.96]}>
         <boxGeometry args={[0.9, 0.55, 0.05]} />
-        <meshStandardMaterial {...glassMat("windshield")} />
+        <meshStandardMaterial {...glassMat("door")} />
+      </mesh>
+
+      {/* ── Side lateral windows (left rear) ── */}
+      <mesh position={[-0.4, 1.18, 0.96]}>
+        <boxGeometry args={[0.9, 0.55, 0.05]} />
+        <meshStandardMaterial {...glassMat("side")} />
+      </mesh>
+      {/* ── Side lateral windows (right rear) ── */}
+      <mesh position={[-0.4, 1.18, -0.96]}>
+        <boxGeometry args={[0.9, 0.55, 0.05]} />
+        <meshStandardMaterial {...glassMat("side")} />
       </mesh>
 
       {/* ── Sunroof ── */}
       <mesh position={[0, 1.6, 0]}>
         <boxGeometry args={[1.2, 0.04, 0.9]} />
-        <meshStandardMaterial {...glassMat("windshield")} />
+        <meshStandardMaterial {...glassMat("sunroof")} />
       </mesh>
 
-      {/* ── Plumillas (wipers) on windshield ── */}
-      {[0.3, -0.3].map((z, i) => (
-        <mesh key={`wiper-${i}`} position={[1.55, 0.85, z]} rotation={[0, 0, 0.6]}>
-          <boxGeometry args={[0.03, 0.7, 0.04]} />
-          <meshStandardMaterial
-            color={isActive("plumillas") ? highlightColor : "#222"}
-            emissive={isActive("plumillas") ? highlightColor : "#000"}
-            emissiveIntensity={isActive("plumillas") ? 0.8 : 0}
-            metalness={0.5}
-            roughness={0.4}
-          />
-        </mesh>
-      ))}
-
-      {/* ── Headlights (luces/ampolletas) ── */}
-      {[0.7, -0.7].map((z, i) => (
-        <group key={`headlight-${i}`}>
-          <mesh position={[2.42, 0.55, z]}>
-            <boxGeometry args={[0.08, 0.2, 0.4]} />
+      {/* ── Side mirrors ── */}
+      {[1.05, -1.05].map((z, i) => (
+        <group key={`mirror-group-${i}`}>
+          <mesh position={[1.0, 0.95, z]}>
+            <boxGeometry args={[0.18, 0.12, 0.12]} />
             <meshStandardMaterial
-              color={isActive("luces") ? highlightColor : "#fff"}
-              emissive={isActive("luces") ? highlightColor : "#ffffcc"}
-              emissiveIntensity={isActive("luces") ? 1.0 : 0.5}
-              transparent
-              opacity={0.95}
+              color={isActive("mirror") ? highlightColor : bodyColor}
+              emissive={isActive("mirror") ? highlightColor : "#000"}
+              emissiveIntensity={isActive("mirror") ? 0.8 : 0}
+              metalness={0.8}
+              roughness={0.2}
             />
           </mesh>
-          {/* DRL strip */}
-          <mesh position={[2.42, 0.42, z]}>
-            <boxGeometry args={[0.08, 0.04, 0.35]} />
+          {/* Mirror glass */}
+          <mesh position={[0.92, 0.95, z * 1.04]}>
+            <boxGeometry args={[0.12, 0.08, 0.02]} />
             <meshStandardMaterial
-              color="#fff"
-              emissive={isActive("luces") ? highlightColor : "#fff"}
-              emissiveIntensity={isActive("luces") ? 1.0 : 0.3}
+              color={isActive("mirror") ? highlightColor : glassColor}
+              emissive={isActive("mirror") ? highlightColor : glassEmissive}
+              emissiveIntensity={isActive("mirror") ? 0.8 : 0.2}
+              transparent
+              opacity={isActive("mirror") ? 0.9 : 0.6}
             />
           </mesh>
         </group>
       ))}
 
-      {/* ── Taillights ── */}
-      {[0.7, -0.7].map((z, i) => (
-        <mesh key={`tail-${i}`} position={[-2.42, 0.55, z]}>
-          <boxGeometry args={[0.08, 0.18, 0.4]} />
-          <meshStandardMaterial
-            color={isActive("luces") ? highlightColor : "#cc0000"}
-            emissive={isActive("luces") ? highlightColor : "#cc0000"}
-            emissiveIntensity={isActive("luces") ? 1.0 : 0.4}
-          />
-        </mesh>
-      ))}
-
-      {/* ── Battery (under hood indicator) ── */}
-      <mesh position={[1.8, 0.75, 0]}>
-        <boxGeometry args={[0.6, 0.3, 0.5]} />
-        <meshStandardMaterial
-          color={isActive("bateria") ? highlightColor : "#333"}
-          emissive={isActive("bateria") ? highlightColor : "#000"}
-          emissiveIntensity={isActive("bateria") ? 0.8 : 0}
-          metalness={0.4}
-          roughness={0.6}
-        />
-      </mesh>
-      {/* Battery terminals */}
-      {[0.15, -0.15].map((z, i) => (
-        <mesh key={`term-${i}`} position={[1.8, 0.93, z]}>
-          <cylinderGeometry args={[0.03, 0.03, 0.06, 8]} />
-          <meshStandardMaterial
-            color={isActive("bateria") ? highlightColor : "#888"}
-            emissive={isActive("bateria") ? highlightColor : "#000"}
-            emissiveIntensity={isActive("bateria") ? 0.6 : 0}
-          />
-        </mesh>
-      ))}
-
-      {/* ── Side mirrors ── */}
-      {[1.05, -1.05].map((z, i) => (
-        <mesh key={`mirror-${i}`} position={[1.0, 0.95, z]}>
-          <boxGeometry args={[0.18, 0.12, 0.12]} />
-          <meshStandardMaterial {...bodyMetal} />
-        </mesh>
-      ))}
-
-      {/* ── Wheels (larger for SUV) ── */}
+      {/* ── Wheels ── */}
       {[
         [1.5, 0.05, 1.05],
         [1.5, 0.05, -1.05],
@@ -215,26 +162,39 @@ function CarModel({ activeZone, targetRotation }: CarModelProps) {
         </group>
       ))}
 
-      {/* ── Front grille (Mercedes style) ── */}
+      {/* ── Headlights ── */}
+      {[0.7, -0.7].map((z, i) => (
+        <mesh key={`head-${i}`} position={[2.42, 0.55, z]}>
+          <boxGeometry args={[0.08, 0.2, 0.4]} />
+          <meshStandardMaterial color="#fff" emissive="#ffffcc" emissiveIntensity={0.5} transparent opacity={0.95} />
+        </mesh>
+      ))}
+
+      {/* ── Taillights ── */}
+      {[0.7, -0.7].map((z, i) => (
+        <mesh key={`tail-${i}`} position={[-2.42, 0.55, z]}>
+          <boxGeometry args={[0.08, 0.18, 0.4]} />
+          <meshStandardMaterial color="#cc0000" emissive="#cc0000" emissiveIntensity={0.4} />
+        </mesh>
+      ))}
+
+      {/* ── Front grille ── */}
       <mesh position={[2.42, 0.4, 0]}>
         <boxGeometry args={[0.08, 0.45, 1.2]} />
         <meshStandardMaterial color="#1a1a1a" metalness={0.6} roughness={0.3} />
       </mesh>
-      {/* Chrome grille accent */}
       <mesh position={[2.44, 0.4, 0]}>
         <boxGeometry args={[0.03, 0.02, 1.0]} />
         <meshStandardMaterial color="#ccc" metalness={0.95} roughness={0.05} />
       </mesh>
 
-      {/* ── Rear bumper ── */}
-      <mesh position={[-2.42, 0.2, 0]}>
-        <boxGeometry args={[0.12, 0.4, 1.9]} />
-        <meshStandardMaterial color={darkTrim} metalness={0.3} roughness={0.6} />
-      </mesh>
-
-      {/* ── Front bumper ── */}
+      {/* ── Bumpers ── */}
       <mesh position={[2.42, 0.2, 0]}>
         <boxGeometry args={[0.12, 0.3, 1.9]} />
+        <meshStandardMaterial color={darkTrim} metalness={0.3} roughness={0.6} />
+      </mesh>
+      <mesh position={[-2.42, 0.2, 0]}>
+        <boxGeometry args={[0.12, 0.4, 1.9]} />
         <meshStandardMaterial color={darkTrim} metalness={0.3} roughness={0.6} />
       </mesh>
     </group>
@@ -255,25 +215,13 @@ const Car3D = ({ activeZone, targetRotation }: Car3DProps) => {
         dpr={[1, 2]}
       >
         <ambientLight intensity={0.5} />
-        <directionalLight
-          position={[8, 10, 5]}
-          intensity={1.4}
-          castShadow
-          shadow-mapSize-width={1024}
-          shadow-mapSize-height={1024}
-        />
+        <directionalLight position={[8, 10, 5]} intensity={1.4} castShadow shadow-mapSize-width={1024} shadow-mapSize-height={1024} />
         <directionalLight position={[-5, 5, -5]} intensity={0.4} />
         <spotLight position={[0, 10, 0]} intensity={0.6} angle={0.4} penumbra={1} />
 
         <CarModel activeZone={activeZone} targetRotation={targetRotation} />
 
-        <ContactShadows
-          position={[0, -0.5, 0]}
-          opacity={0.5}
-          scale={14}
-          blur={2.5}
-          far={5}
-        />
+        <ContactShadows position={[0, -0.5, 0]} opacity={0.5} scale={14} blur={2.5} far={5} />
 
         <OrbitControls
           enablePan={false}
