@@ -1,51 +1,44 @@
 import { useState, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle, X, RotateCcw } from "lucide-react";
+import { MessageCircle, X, RotateCcw, Lightbulb, Battery, Droplets, Shield } from "lucide-react";
 import Car3D from "./Car3D";
 
 interface Zone {
   id: string;
   label: string;
   description: string;
-  rotation: number; // Y-axis rotation in radians to best view this zone
+  icon: React.ElementType;
+  rotation: number;
 }
 
 const zones: Zone[] = [
   {
     id: "windshield",
-    label: "Parabrisas Delantero",
-    description: "Cambio e instalación de parabrisas delantero para todas las marcas con adhesivos certificados.",
-    rotation: Math.PI * 0.25, // front 3/4 view
+    label: "Parabrisas",
+    description: "Cambio e instalación de parabrisas para todas las marcas: Mercedes, Toyota, Changan, L200 y más. Vidrios certificados con sellado profesional.",
+    icon: Shield,
+    rotation: Math.PI * 0.25,
   },
   {
-    id: "rear",
-    label: "Parabrisas Trasero",
-    description: "Reemplazo de luneta trasera con calefacción y antena integrada.",
-    rotation: Math.PI * 1.25, // rear 3/4 view
+    id: "plumillas",
+    label: "Plumillas",
+    description: "Plumillas de alta calidad marca Würth para todos los modelos. Instalación inmediata y asesoría experta.",
+    icon: Droplets,
+    rotation: Math.PI * 0.2,
   },
   {
-    id: "side-rear",
-    label: "Vidrio Lateral Trasero",
-    description: "Vidrios laterales fijos y corredizos, con o sin polarizado.",
-    rotation: Math.PI * 0.75, // side view
+    id: "luces",
+    label: "Luces / Ampolletas",
+    description: "Ampolletas LED, halógenas y xenón. Instalación profesional para faros delanteros, traseros y neblineros.",
+    icon: Lightbulb,
+    rotation: Math.PI * 0.15,
   },
   {
-    id: "door",
-    label: "Vidrio de Puerta",
-    description: "Reemplazo de vidrios de puerta delantera y trasera para todos los modelos.",
-    rotation: Math.PI * 0.6, // front-side view
-  },
-  {
-    id: "sunroof",
-    label: "Sunroof / Techo Solar",
-    description: "Instalación y reparación de techos solares y panorámicos.",
-    rotation: Math.PI * 0.25, // top-ish view (camera is above)
-  },
-  {
-    id: "mirror",
-    label: "Espejo Retrovisor",
-    description: "Cristales de espejo retrovisor lateral, originales y compatibles.",
-    rotation: Math.PI * 0.5, // side view for mirrors
+    id: "bateria",
+    label: "Batería",
+    description: "Baterías Acco y otras marcas premium. Diagnóstico, cambio e instalación con garantía.",
+    icon: Battery,
+    rotation: Math.PI * 0.1,
   },
 ];
 
@@ -65,28 +58,31 @@ const InteractiveCarSection = () => {
           className="text-center mb-12"
         >
           <h2 className="font-heading text-3xl sm:text-4xl font-bold mb-4">
-            ¿Qué vidrio <span className="text-primary">necesita</span>?
+            ¿Qué <span className="text-primary">necesita</span> su vehículo?
           </h2>
           <p className="text-muted-foreground max-w-lg mx-auto">
-            Seleccione una zona del vehículo — el auto girará para mostrarle la pieza
+            Seleccione una zona del Mercedes-Benz GLE — el auto girará para mostrarle el producto
           </p>
         </motion.div>
 
-        {/* Zone selector buttons */}
         <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-8">
-          {zones.map((zone) => (
-            <button
-              key={zone.id}
-              onClick={() => setActive(active === zone.id ? null : zone.id)}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 border ${
-                active === zone.id
-                  ? "bg-primary text-primary-foreground border-primary shadow-[var(--shadow-glow)]"
-                  : "border-border bg-card text-muted-foreground hover:border-primary/50 hover:text-foreground"
-              }`}
-            >
-              {zone.label}
-            </button>
-          ))}
+          {zones.map((zone) => {
+            const Icon = zone.icon;
+            return (
+              <button
+                key={zone.id}
+                onClick={() => setActive(active === zone.id ? null : zone.id)}
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 border flex items-center gap-2 ${
+                  active === zone.id
+                    ? "bg-primary text-primary-foreground border-primary shadow-[var(--shadow-glow)]"
+                    : "border-border bg-card text-muted-foreground hover:border-primary/50 hover:text-foreground"
+                }`}
+              >
+                <Icon className="w-4 h-4" />
+                {zone.label}
+              </button>
+            );
+          })}
           {active && (
             <button
               onClick={() => setActive(null)}
@@ -99,7 +95,6 @@ const InteractiveCarSection = () => {
         </div>
 
         <div className="flex flex-col lg:flex-row items-center gap-10">
-          {/* 3D Car */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -118,7 +113,6 @@ const InteractiveCarSection = () => {
             </Suspense>
           </motion.div>
 
-          {/* Info Panel */}
           <div className="flex-1 w-full max-w-md min-h-[220px]">
             <AnimatePresence mode="wait">
               {activeZone ? (
@@ -137,6 +131,7 @@ const InteractiveCarSection = () => {
                   >
                     <X className="w-4 h-4" />
                   </button>
+                  <activeZone.icon className="w-10 h-10 text-primary mb-3" />
                   <h3 className="font-heading text-2xl font-bold mb-3 text-primary">
                     {activeZone.label}
                   </h3>
@@ -144,7 +139,7 @@ const InteractiveCarSection = () => {
                     {activeZone.description}
                   </p>
                   <a
-                    href={`https://wa.me/56996438729?text=Hola%2C%20necesito%20cotizar%20${encodeURIComponent(activeZone.label)}`}
+                    href={`https://wa.me/56952264328?text=Hola%2C%20necesito%20cotizar%20${encodeURIComponent(activeZone.label)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="btn-whatsapp"
@@ -163,7 +158,7 @@ const InteractiveCarSection = () => {
                     <span className="w-3 h-3 rounded-full bg-primary animate-pulse" />
                   </div>
                   <p className="text-muted-foreground">
-                    Seleccione una zona del vehículo para ver el servicio disponible
+                    Seleccione una zona del vehículo para ver el producto o servicio disponible
                   </p>
                 </motion.div>
               )}
