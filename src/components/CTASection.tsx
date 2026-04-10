@@ -18,7 +18,7 @@ const CTASection = () => (
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <a
-            href="https://wa.me/56996438729?text=Hola%2C%20necesito%20una%20cotización"
+            href="https://wa.me/56952264328?text=Hola%2C%20necesito%20una%20cotización"
             target="_blank"
             rel="noopener noreferrer"
             className="btn-whatsapp text-lg px-8 py-4"
