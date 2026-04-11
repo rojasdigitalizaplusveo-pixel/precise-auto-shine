@@ -1,61 +1,58 @@
-import { useState, Suspense } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle, X, RotateCcw } from "lucide-react";
-import Car3D from "./Car3D";
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { MessageCircle } from "lucide-react";
+import autoImg from "@/assets/auto-vidrios.png";
 
-interface Zone {
-  id: string;
-  label: string;
-  description: string;
-  rotation: number;
-}
-
-const zones: Zone[] = [
+const zones = [
   {
     id: "windshield",
     label: "Parabrisas Delantero",
-    description: "Cambio e instalación de parabrisas delantero para todas las marcas con adhesivos certificados.",
-    rotation: Math.PI * 0.25,
+    desc: "Instalación y reemplazo de parabrisas delantero para todas las marcas. Vidrios certificados Fuyao y XYG.",
+    top: "18%",
+    left: "48%",
   },
   {
     id: "rear",
     label: "Parabrisas Trasero",
-    description: "Reemplazo de luneta trasera con calefacción y antena integrada.",
-    rotation: Math.PI * 1.25,
+    desc: "Parabrisas trasero original y alternativo con garantía de instalación profesional.",
+    top: "22%",
+    left: "12%",
   },
   {
     id: "door",
     label: "Vidrio Puerta",
-    description: "Reemplazo de vidrios de puerta delantera y trasera para todos los modelos.",
-    rotation: Math.PI * 0.6,
+    desc: "Vidrios de puerta delantera y trasera. Stock permanente para los modelos más populares.",
+    top: "42%",
+    left: "35%",
   },
   {
     id: "side",
     label: "Vidrio Lateral",
-    description: "Vidrios laterales fijos y corredizos, con o sin polarizado.",
-    rotation: Math.PI * 0.75,
+    desc: "Vidrios laterales fijos (custodios). Reemplazo rápido y seguro.",
+    top: "28%",
+    left: "25%",
   },
   {
     id: "sunroof",
     label: "Sunroof",
-    description: "Instalación y reparación de techos solares y panorámicos.",
-    rotation: Math.PI * 0.25,
+    desc: "Vidrio de techo solar. Trabajamos con medidas específicas para cada modelo.",
+    top: "12%",
+    left: "32%",
   },
   {
     id: "mirror",
     label: "Vidrio Espejo",
-    description: "Cristales de espejo retrovisor lateral, originales y compatibles.",
-    rotation: Math.PI * 0.5,
+    desc: "Vidrios de espejo retrovisor lateral. Disponibles para la mayoría de vehículos.",
+    top: "45%",
+    left: "72%",
   },
 ];
 
 const InteractiveCarSection = () => {
   const [active, setActive] = useState<string | null>(null);
-  const activeZone = zones.find((z) => z.id === active);
-  const targetRotation = activeZone ? activeZone.rotation : 0;
 
   return (
-    <section className="py-24">
+    <section className="py-24 bg-card/30">
       <div className="section-container">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -65,106 +62,84 @@ const InteractiveCarSection = () => {
           className="text-center mb-12"
         >
           <h2 className="font-heading text-3xl sm:text-4xl font-bold mb-4">
-            ¿Qué vidrio <span className="text-primary">necesita</span>?
+            ¿Qué vidrio necesita tu <span className="text-primary">vehículo</span>?
           </h2>
           <p className="text-muted-foreground max-w-lg mx-auto">
-            Seleccione una zona del vehículo — el auto girará para mostrarle la pieza
+            Selecciona la zona del vidrio que necesitas reemplazar
           </p>
         </motion.div>
 
-        <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-8">
-          {zones.map((zone) => (
-            <button
-              key={zone.id}
-              onClick={() => setActive(active === zone.id ? null : zone.id)}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 border ${
-                active === zone.id
-                  ? "bg-primary text-primary-foreground border-primary shadow-[var(--shadow-glow)]"
-                  : "border-border bg-card text-muted-foreground hover:border-primary/50 hover:text-foreground"
-              }`}
-            >
-              {zone.label}
-            </button>
-          ))}
-          {active && (
-            <button
-              onClick={() => setActive(null)}
-              className="px-3 py-2 rounded-lg text-sm border border-border bg-card text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
-            >
-              <RotateCcw className="w-3.5 h-3.5" />
-              Reset
-            </button>
-          )}
-        </div>
-
-        <div className="flex flex-col lg:flex-row items-center gap-10">
+        <div className="grid lg:grid-cols-[1fr_380px] gap-8 items-start">
+          {/* Car image with hotspots */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="flex-1 w-full max-w-3xl"
+            className="relative w-full max-w-3xl mx-auto"
           >
-            <Suspense
-              fallback={
-                <div className="w-full h-[400px] sm:h-[450px] lg:h-[500px] rounded-2xl bg-card border border-border flex items-center justify-center">
-                  <div className="text-muted-foreground animate-pulse">Cargando modelo 3D…</div>
-                </div>
-              }
-            >
-              <Car3D activeZone={active} targetRotation={targetRotation} />
-            </Suspense>
+            <img
+              src={autoImg}
+              alt="Mercedes-Benz GLE 450 — Identificación de vidrios"
+              className="w-full h-auto"
+            />
+
+            {/* Hotspot dots */}
+            {zones.map((z) => (
+              <button
+                key={z.id}
+                onClick={() => setActive(active === z.id ? null : z.id)}
+                className={`absolute w-7 h-7 rounded-full border-2 transition-all duration-300 flex items-center justify-center -translate-x-1/2 -translate-y-1/2 ${
+                  active === z.id
+                    ? "bg-primary border-primary scale-125 shadow-[0_0_16px_hsl(var(--primary)/0.5)]"
+                    : "bg-primary/30 border-primary/60 hover:bg-primary/60 hover:scale-110"
+                }`}
+                style={{ top: z.top, left: z.left }}
+                aria-label={z.label}
+              >
+                <span className="w-2.5 h-2.5 rounded-full bg-primary-foreground" />
+                {active !== z.id && (
+                  <span className="absolute inset-0 rounded-full bg-primary animate-ping opacity-30" />
+                )}
+              </button>
+            ))}
           </motion.div>
 
-          <div className="flex-1 w-full max-w-md min-h-[220px]">
-            <AnimatePresence mode="wait">
-              {activeZone ? (
-                <motion.div
-                  key={activeZone.id}
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  transition={{ duration: 0.3 }}
-                  className="card-service relative"
-                >
-                  <button
-                    onClick={() => setActive(null)}
-                    className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors"
-                    aria-label="Cerrar"
+          {/* Zone selector panel */}
+          <div className="space-y-3">
+            {zones.map((z) => (
+              <button
+                key={z.id}
+                onClick={() => setActive(active === z.id ? null : z.id)}
+                className={`w-full text-left rounded-xl border px-5 py-4 transition-all duration-300 ${
+                  active === z.id
+                    ? "border-primary bg-primary/10 shadow-lg"
+                    : "border-border bg-card hover:border-primary/30"
+                }`}
+              >
+                <h4 className="font-heading font-semibold text-sm">{z.label}</h4>
+                {active === z.id && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    transition={{ duration: 0.3 }}
                   >
-                    <X className="w-4 h-4" />
-                  </button>
-                  <h3 className="font-heading text-2xl font-bold mb-3 text-primary">
-                    {activeZone.label}
-                  </h3>
-                  <p className="text-muted-foreground mb-6 leading-relaxed">
-                    {activeZone.description}
-                  </p>
-                  <a
-                    href={`https://wa.me/56952264328?text=Hola%2C%20necesito%20cotizar%20${encodeURIComponent(activeZone.label)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn-whatsapp"
-                  >
-                    <MessageCircle className="w-4 h-4" />
-                    Cotizar {activeZone.label}
-                  </a>
-                </motion.div>
-              ) : (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="card-service flex flex-col items-center justify-center h-[220px] text-center"
-                >
-                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                    <span className="w-3 h-3 rounded-full bg-primary animate-pulse" />
-                  </div>
-                  <p className="text-muted-foreground">
-                    Seleccione una zona del vehículo para ver el servicio disponible
-                  </p>
-                </motion.div>
-              )}
-            </AnimatePresence>
+                    <p className="text-muted-foreground text-sm mt-2 leading-relaxed">
+                      {z.desc}
+                    </p>
+                    <a
+                      href={`https://wa.me/56952264328?text=${encodeURIComponent(`Hola, necesito cotizar: ${z.label}`)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn-whatsapp mt-3 text-sm px-4 py-2"
+                    >
+                      <MessageCircle className="w-4 h-4" />
+                      Cotizar
+                    </a>
+                  </motion.div>
+                )}
+              </button>
+            ))}
           </div>
         </div>
       </div>
