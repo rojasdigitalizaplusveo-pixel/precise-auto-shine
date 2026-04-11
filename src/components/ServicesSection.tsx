@@ -1,11 +1,14 @@
 import { motion } from "framer-motion";
-import { Shield, Wrench, Car, Eye, Droplets, Battery, Lightbulb, Layers } from "lucide-react";
+import { Shield, Wrench, Car, Eye, Droplets, Lightbulb, Layers } from "lucide-react";
+import logoFuyao from "@/assets/logo-fuyao.png";
+import logoXyg from "@/assets/logo-xyg.png";
+import logoWurth from "@/assets/logo-wurth.png";
+import logoBrm from "@/assets/logo-brm.jpg";
 
 const services = [
-  { icon: Shield, title: "Parabrisas", desc: "Instalación y reemplazo para Mercedes, Toyota, Changan, L200 y todas las marcas." },
-  { icon: Battery, title: "Baterías", desc: "Baterías Acco y marcas premium. Diagnóstico y cambio con garantía." },
-  { icon: Lightbulb, title: "Ampolletas", desc: "LED, halógenas y xenón para todo tipo de vehículo." },
-  { icon: Droplets, title: "Plumillas Würth", desc: "Plumillas de calidad premium para todos los modelos. Instalación inmediata." },
+  { icon: Shield, title: "Parabrisas Certificados", desc: "Vidrios certificados Fuyao y XYG. Originales y alternativas de calidad para Mercedes, Toyota, Changan, L200 y todas las marcas." },
+  { icon: Lightbulb, title: "Ampolletas Halógenas", desc: "Ampolletas halógenas de alta duración para todo tipo de vehículo. Asesoría e instalación." },
+  { icon: Droplets, title: "Plumillas BRM y Würth", desc: "Plumillas de calidad premium BRM y Würth para todos los modelos. Instalación inmediata." },
   { icon: Layers, title: "Aditivos", desc: "Aditivos para motor, refrigerante y limpieza de inyectores." },
   { icon: Car, title: "Accesorios", desc: "Accesorios automotrices Aaron, BRM y Würth." },
 ];
@@ -14,6 +17,13 @@ const additionalServices = [
   { icon: Eye, title: "Eliminación de Polarizado", desc: "Retiro profesional de láminas antiguas o dañadas." },
   { icon: Wrench, title: "Grabado de Patentes", desc: "Grabado de seguridad en vidrios según normativa." },
   { icon: Droplets, title: "Instalación de Plumillas", desc: "Instalación de plumillas y accesorios en el acto." },
+];
+
+const brandLogos = [
+  { src: logoFuyao, alt: "Fuyao Glass" },
+  { src: logoXyg, alt: "XYG" },
+  { src: logoWurth, alt: "Würth" },
+  { src: logoBrm, alt: "BRM" },
 ];
 
 const ServicesSection = () => (
@@ -51,7 +61,33 @@ const ServicesSection = () => (
         ))}
       </div>
 
-      {/* Würth Banner */}
+      {/* Brands we work with */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true }}
+        className="rounded-2xl border border-border bg-card/50 p-8 sm:p-12 mb-16"
+      >
+        <h3 className="font-heading text-2xl font-bold text-center mb-3">
+          Marcas <span className="text-primary">certificadas</span>
+        </h3>
+        <p className="text-muted-foreground text-center max-w-xl mx-auto mb-8 text-sm">
+          Todos nuestros vidrios son certificados. Trabajamos con marcas reconocidas ofreciendo tanto originales como alternativas de calidad.
+        </p>
+        <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-12">
+          {brandLogos.map((b) => (
+            <img
+              key={b.alt}
+              src={b.src}
+              alt={b.alt}
+              className="h-12 sm:h-16 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300 opacity-80 hover:opacity-100"
+            />
+          ))}
+        </div>
+      </motion.div>
+
+      {/* Würth / BRM Plumillas Banner */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -66,7 +102,7 @@ const ServicesSection = () => (
               Plumillas para todos los modelos
             </h3>
             <p className="text-muted-foreground text-lg">
-              Calidad <span className="text-primary font-semibold">Würth</span> — Instalación inmediata
+              Calidad <span className="text-primary font-semibold">Würth</span> y <span className="text-primary font-semibold">BRM</span> — Instalación inmediata
             </p>
           </div>
           <a
