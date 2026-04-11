@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import logo from "@/assets/logo.png";
+import logo from "@/assets/logo_parabrisasvillarrica.png";
 
 const links = [
   { href: "#servicios", label: "Servicios" },
@@ -16,7 +16,10 @@ const Navbar = () => {
     <nav className="fixed top-0 left-0 right-0 z-40 bg-background/80 backdrop-blur-md border-b border-border/50">
       <div className="section-container flex items-center justify-between h-16">
         <a href="#" className="flex items-center gap-3">
-          <img src={logo} alt="Parabrisas Villarrica" className="h-10 w-auto" />
+          <img src={logo} alt="Parabrisas Villarrica" className="h-14 w-auto" />
+          <span className="font-heading text-lg sm:text-xl font-bold text-foreground tracking-tight">
+            Parabrisas Villarrica
+          </span>
         </a>
 
         <div className="hidden md:flex items-center gap-8">
