@@ -45,6 +45,14 @@ const FooterSection = () => (
               <a href="tel:+56952264328" className="hover:text-foreground transition-colors">+56 9 5226 4328</a>
             </li>
             <li className="flex items-center gap-2">
+              <Phone className="w-4 h-4 text-primary shrink-0" />
+              <a href="tel:+56996438729" className="hover:text-foreground transition-colors">+56 9 9643 8729</a>
+            </li>
+            <li className="flex items-center gap-2">
+              <Phone className="w-4 h-4 text-primary shrink-0" />
+              <a href="tel:+56452413877" className="hover:text-foreground transition-colors">45 2413877</a>
+            </li>
+            <li className="flex items-center gap-2">
               <Mail className="w-4 h-4 text-primary shrink-0" />
               <a href="mailto:parabrisas-villarrica@hotmail.com" className="hover:text-foreground transition-colors">parabrisas-villarrica@hotmail.com</a>
             </li>
