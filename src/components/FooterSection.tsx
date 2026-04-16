@@ -27,7 +27,7 @@ const FooterSection = () => (
 
       <div className="grid md:grid-cols-3 gap-10">
         <div>
-          <img src={logo} alt="Parabrisas Villarrica" className="h-12 w-auto mb-4" />
+          <img src={logo} alt="Parabrisas Villarrica" className="h-24 sm:h-28 md:h-32 w-auto mb-4" />
           <p className="text-muted-foreground text-sm leading-relaxed">
             Más de 25 años de experiencia en vidrios y accesorios automotrices en Villarrica.
           </p>
