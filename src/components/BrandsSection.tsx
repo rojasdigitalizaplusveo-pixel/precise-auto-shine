@@ -11,6 +11,16 @@ import peugeotLogo from "@/assets/brands/peugeot.svg";
 import volkswagenLogo from "@/assets/brands/volkswagen.svg";
 import mercedesLogo from "@/assets/brands/mercedes.svg";
 import mitsubishiLogo from "@/assets/brands/mitsubishi.svg";
+import brand18 from "@/assets/brands/brand-18.svg";
+import brand19 from "@/assets/brands/brand-19.svg";
+import brand20 from "@/assets/brands/brand-20.svg";
+import brand21 from "@/assets/brands/brand-21.svg";
+import brand22 from "@/assets/brands/brand-22.svg";
+import brand23 from "@/assets/brands/brand-23.svg";
+import brand24 from "@/assets/brands/brand-24.svg";
+import brand25 from "@/assets/brands/brand-25.svg";
+import brand26 from "@/assets/brands/brand-26.svg";
+import brand27 from "@/assets/brands/brand-27.svg";
 
 const brands = [
   { name: "Toyota", logo: toyotaLogo },
@@ -23,8 +33,16 @@ const brands = [
   { name: "Volkswagen", logo: volkswagenLogo },
   { name: "Mercedes-Benz", logo: mercedesLogo },
   { name: "Mitsubishi", logo: mitsubishiLogo },
-  { name: "Changan", logo: null },
-  { name: "Mazda", logo: null },
+  { name: "Changan", logo: brand18 },
+  { name: "Mazda", logo: brand19 },
+  { name: "Marca 20", logo: brand20 },
+  { name: "Marca 21", logo: brand21 },
+  { name: "Marca 22", logo: brand22 },
+  { name: "Marca 23", logo: brand23 },
+  { name: "Marca 24", logo: brand24 },
+  { name: "Marca 25", logo: brand25 },
+  { name: "Marca 26", logo: brand26 },
+  { name: "Marca 27", logo: brand27 },
 ];
 
 const BrandsSection = () => {
