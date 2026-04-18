@@ -1,8 +1,31 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MessageCircle, X } from "lucide-react";
+import toyotaLogo from "@/assets/brands/toyota.svg";
+import hyundaiLogo from "@/assets/brands/hyundai.svg";
+import kiaLogo from "@/assets/brands/kia.svg";
+import chevroletLogo from "@/assets/brands/chevrolet.svg";
+import nissanLogo from "@/assets/brands/nissan.svg";
+import suzukiLogo from "@/assets/brands/suzuki.svg";
+import peugeotLogo from "@/assets/brands/peugeot.svg";
+import volkswagenLogo from "@/assets/brands/volkswagen.svg";
+import mercedesLogo from "@/assets/brands/mercedes.svg";
+import mitsubishiLogo from "@/assets/brands/mitsubishi.svg";
 
-const brands = ["Toyota", "Hyundai", "Kia", "Chevrolet", "Nissan", "Suzuki", "Peugeot", "Volkswagen", "Mercedes-Benz", "Mitsubishi", "Changan", "Mazda"];
+const brands = [
+  { name: "Toyota", logo: toyotaLogo },
+  { name: "Hyundai", logo: hyundaiLogo },
+  { name: "Kia", logo: kiaLogo },
+  { name: "Chevrolet", logo: chevroletLogo },
+  { name: "Nissan", logo: nissanLogo },
+  { name: "Suzuki", logo: suzukiLogo },
+  { name: "Peugeot", logo: peugeotLogo },
+  { name: "Volkswagen", logo: volkswagenLogo },
+  { name: "Mercedes-Benz", logo: mercedesLogo },
+  { name: "Mitsubishi", logo: mitsubishiLogo },
+  { name: "Changan", logo: null },
+  { name: "Mazda", logo: null },
+];
 
 const BrandsSection = () => {
   const [showForm, setShowForm] = useState(false);
@@ -41,11 +64,24 @@ const BrandsSection = () => {
             >
               {[...brands, ...brands].map((brand, i) => (
                 <button
-                  key={`${brand}-${i}`}
-                  onClick={() => handleBrandClick(brand)}
-                  className="flex items-center justify-center h-16 px-8 rounded-lg border border-border bg-card/50 text-muted-foreground font-heading font-semibold text-sm transition-all duration-300 hover:text-primary hover:border-primary/30 hover:shadow-[var(--shadow-glow)] whitespace-nowrap cursor-pointer shrink-0"
+                  key={`${brand.name}-${i}`}
+                  onClick={() => handleBrandClick(brand.name)}
+                  title={brand.name}
+                  aria-label={brand.name}
+                  className="flex items-center justify-center h-20 w-32 px-4 rounded-lg border border-border bg-card/50 transition-all duration-300 hover:border-primary/30 hover:shadow-[var(--shadow-glow)] hover:bg-card cursor-pointer shrink-0 group"
                 >
-                  {brand}
+                  {brand.logo ? (
+                    <img
+                      src={brand.logo}
+                      alt={brand.name}
+                      className="max-h-14 max-w-full object-contain opacity-70 group-hover:opacity-100 transition-opacity duration-300"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <span className="font-heading font-semibold text-sm text-muted-foreground group-hover:text-primary transition-colors">
+                      {brand.name}
+                    </span>
+                  )}
                 </button>
               ))}
             </motion.div>
@@ -100,7 +136,7 @@ const BrandsSection = () => {
                     className="w-full bg-background border border-border rounded-lg px-4 py-3 text-foreground"
                   >
                     {brands.map((b) => (
-                      <option key={b} value={b}>{b}</option>
+                      <option key={b.name} value={b.name}>{b.name}</option>
                     ))}
                   </select>
                 </div>
